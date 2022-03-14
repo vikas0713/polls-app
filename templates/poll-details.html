@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ poll.title }} - Details</title>
+    <link rel="stylesheet" href="{% static 'base/base.css'%}">
+</head>
+<body>
+
+<!---------- Navigation bar -------------->
+{% include 'nav.html' %}
+
+<div>
+    <h3> Title: {{ poll.title }}</h3>
+    <h3> Description: {{ poll.description }}</h3>
+    <h3> Rate Count: {{ poll.rating }}</h3>
+</div>
+
+</body>
+</html>

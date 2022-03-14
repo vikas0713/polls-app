@@ -1,15 +1,27 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Polls</title>
+    <link rel="stylesheet" href="{% static 'style.css'%}">
+    <link rel="stylesheet" href="{% static 'base/base.css'%}">
 </head>
 <body>
-<h2>Polls list</h2>
+<!---------- Navigation bar -------------->
+{% include 'nav.html' %}
+
+
+
+
+
+<h1>Polls list</h1>
 {% for poll in polls_list %}
-    <div>
-        {{ poll.title }} ---- {{ poll.rating }}
-        <a href="{% url 'rate' poll.id %}">[Rate (+1)]</a>
+    <div class="poll-class box a">
+        <a href="{% url 'poll_details' poll.id %}">
+            <h3 class="title">{{ poll.title }}  {{ poll.rating }}</h3>
+        </a>
+        <a class='button right' href="{% url 'rate' poll.id %}">Like (+1)</a>
     </div>
 {% endfor %}
 <br><br>

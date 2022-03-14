@@ -23,3 +23,8 @@ def create_poll(request):
         Poll.objects.create(title=title,description=description)
         return HttpResponseRedirect('/polls/poll-list')
     return render(request, 'poll-form.html', {})
+
+
+def poll_details(request, poll_id):
+    return render(request, 'poll-details.html', {"poll": Poll.objects.get(id=poll_id)})
+
