@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 # Create your views here.
+from polls.forms import PollForm
 from polls.models import Poll
 
 
@@ -22,19 +23,16 @@ def rate(request, poll_id):
 @login_required(login_url='/login')
 def create_poll(request):
     if request.POST:
-        title = request.POST.get("title")
-        description = request.POST.get("description")
-        Poll.objects.create(title=title,description=description)
-        return HttpResponseRedirect('/polls/poll-list')
-    return render(request, 'poll-form.html', {})
+        form = PollForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/polls/poll-list')
+    return render(request, 'poll-form.html', {"form": PollForm})
 
 
 @login_required(login_url='/login')
 def poll_details(request, poll_id):
-    # if request.user.is_authenticated:
     return render(request, 'poll-details.html', {"poll": Poll.objects.get(id=poll_id)})
-    # else:
-    #     return HttpResponseRedirect('/login')
 
 
 def login_user(request):

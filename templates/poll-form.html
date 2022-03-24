@@ -9,13 +9,7 @@
 
 <form method="post" action="{% url 'create_poll' %}">
     {% csrf_token %}
-    <label>Title</label><br>
-    <input type="text" name="title">
-
-    <br><br>
-
-    <label>Description</label><br>
-    <textarea name="description" cols="15" rows="10"></textarea><br>
+    {{ form.as_p }}
 
 
     <button type="submit">Save Poll</button>
