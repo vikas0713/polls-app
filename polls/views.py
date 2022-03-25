@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
+from django.core.files.storage import FileSystemStorage
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 
 # Create your views here.
@@ -17,15 +18,15 @@ def rate(request, poll_id):
     poll = Poll.objects.get(id=poll_id)
     poll.rating += 1
     poll.save()
-    return HttpResponseRedirect('/polls/poll-list/')
+    return JsonResponse(data={"rating": poll.rating, "title": poll.title})
 
 
 @login_required(login_url='/login')
 def create_poll(request):
     if request.POST:
-        form = PollForm(request.POST)
+        form = PollForm(request.POST, files=request.FILES)
         if form.is_valid():
-            form.save()
+            poll = form.save()
             return HttpResponseRedirect('/polls/poll-list')
     return render(request, 'poll-form.html', {"form": PollForm})
 

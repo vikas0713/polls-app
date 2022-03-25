@@ -7,4 +7,4 @@ class PollForm(ModelForm):
 
     class Meta:
         model = Poll
-        fields = ['title', 'description']
+        fields = ('title',  'logo')

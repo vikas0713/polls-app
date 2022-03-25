@@ -6,6 +6,10 @@
     <title>Polls</title>
     <link rel="stylesheet" href="{% static 'style.css'%}">
     <link rel="stylesheet" href="{% static 'base/base.css'%}">
+    <script
+            src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+            crossorigin="anonymous"></script>
 </head>
 <body>
 <!---------- Navigation bar -------------->
@@ -16,15 +20,30 @@
 
 
 <h1>Polls list</h1>
+<button id="click">Click Me</button>
 {% for poll in polls_list %}
     <div class="poll-class box a">
-        <a href="{% url 'poll_details' poll.id %}">
-            <h3 class="title">{{ poll.title }}  {{ poll.rating }}</h3>
+        <a href="{% url 'poll_details' poll.id %}" >
+            <h3 class="title" id="{{ poll.id }}">{{ poll.title }}  {{ poll.rating }}</h3>
         </a>
-        <a class='button right' href="{% url 'rate' poll.id %}">Like (+1)</a>
+        <button class='button right rate' data="{{ poll.id }}">Like (+1)</button>
     </div>
 {% endfor %}
 <br><br>
 <a href="{% url 'create_poll' %}"> Create New Poll </a>
 </body>
+<script>
+    $(".rate").click(function(){
+        let pollId = $(this).attr('data');
+        let url = '/polls/rate/'+pollId+'/'
+        $.ajax({
+            url: url,
+            method: 'GET',
+            success: function(response){
+                $(`#`+pollId).html(response.title+' '+ response.rating);
+            }
+        })
+    });
+</script>
+
 </html>
